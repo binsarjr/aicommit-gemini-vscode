@@ -1,13 +1,15 @@
 {
   "name": "aicommitgemini",
   "displayName": "AiCommitGemini",
-  "description": "testing",
+  "description": "Commit with AI",
+  "publisher": "binsarjr",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "SCM Providers"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
