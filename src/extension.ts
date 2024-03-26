@@ -25,52 +25,68 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand("aicommitgemini.commit", async () => {
-			try {
-				const git = new Git();
-				const diff = await git.getDiff();
-				const gemini = new Gemini();
+			return vscode.window.withProgress(
+				{
+					location: vscode.ProgressLocation.Notification,
+					title: "Generating commit message...",
+				},
+				async (progress, token) => {
+					try {
+						const git = new Git();
+						const diff = await git.getDiff();
+						const gemini = new Gemini();
 
-				// request commit context
-				const commitContext = await vscode.window.showInputBox({
-					prompt: "Please enter your commit context (Enter to skip)",
-				});
+						// request commit context
+						const commitContext = await vscode.window.showInputBox({
+							prompt: "Please enter your commit context (Enter to skip)",
+						});
 
-				if (commitContext) {
-					gemini.setCommitContext(commitContext);
+						if (commitContext) {
+							gemini.setCommitContext(commitContext);
+						}
+
+						const commitMessage = await gemini.askCommit(diff.join("\n"));
+						vscode.window.showInformationMessage(commitMessage);
+						await git.commit(commitMessage);
+					} catch (error: any) {
+						vscode.window.showErrorMessage(error.message);
+					}
 				}
-
-				const commitMessage = await gemini.askCommit(diff.join("\n"));
-				vscode.window.showInformationMessage(commitMessage);
-				await git.commit(commitMessage);
-			} catch (error: any) {
-				vscode.window.showErrorMessage(error.message);
-			}
+			);
 		})
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand("aicommitgemini.commit-all", async () => {
-			try {
-				const git = new Git();
-				await git.stageAllChanges();
-				const diff = await git.getDiff();
-				const gemini = new Gemini();
+			return vscode.window.withProgress(
+				{
+					location: vscode.ProgressLocation.Notification,
+					title: "Generating commit message...",
+				},
+				async (progress, token) => {
+					try {
+						const git = new Git();
+						await git.stageAllChanges();
+						const diff = await git.getDiff();
+						const gemini = new Gemini();
 
-				// request commit context
-				const commitContext = await vscode.window.showInputBox({
-					prompt: "Please enter your commit context (Enter to skip)",
-				});
+						// request commit context
+						const commitContext = await vscode.window.showInputBox({
+							prompt: "Please enter your commit context (Enter to skip)",
+						});
 
-				if (commitContext) {
-					gemini.setCommitContext(commitContext);
+						if (commitContext) {
+							gemini.setCommitContext(commitContext);
+						}
+
+						const commitMessage = await gemini.askCommit(diff.join("\n"));
+						vscode.window.showInformationMessage(commitMessage);
+						await git.commit(commitMessage);
+					} catch (error: any) {
+						vscode.window.showErrorMessage(error.message);
+					}
 				}
-
-				const commitMessage = await gemini.askCommit(diff.join("\n"));
-				vscode.window.showInformationMessage(commitMessage);
-				await git.commit(commitMessage);
-			} catch (error: any) {
-				vscode.window.showErrorMessage(error.message);
-			}
+			);
 		})
 	);
 }

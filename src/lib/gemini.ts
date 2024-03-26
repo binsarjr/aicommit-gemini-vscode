@@ -41,9 +41,6 @@ export class Gemini {
 
 		const model = genAI.getGenerativeModel({
 			model: "gemini-pro",
-			generationConfig: {
-				temperature: 0.2,
-			},
 			safetySettings: [
 				{
 					category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -59,6 +56,10 @@ export class Gemini {
 				},
 				{
 					category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+					threshold: HarmBlockThreshold.BLOCK_NONE,
+				},
+				{
+					category: HarmCategory.HARM_CATEGORY_UNSPECIFIED,
 					threshold: HarmBlockThreshold.BLOCK_NONE,
 				},
 			],

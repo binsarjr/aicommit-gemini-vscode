@@ -3,7 +3,12 @@
   "displayName": "AiCommitGemini",
   "description": "Commit with AI",
   "publisher": "binsarjr",
-  "version": "0.0.1",
+  "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binsarjr/aicommit-gemini-vscode"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -46,11 +51,6 @@
           "default": "",
           "description": "Describe what is the project you are working on"
         },
-        "aicommitgemini.commitAll": {
-          "type": "boolean",
-          "default": false,
-          "description": "Commit all files"
-        },
         "aicommitgemini.emoji": {
           "type": "boolean",
           "default": false,
@@ -60,13 +60,13 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run package",
+    "vscode:prepublish": "yarn run package",
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test"
   },
