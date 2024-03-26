@@ -3,7 +3,7 @@
   "displayName": "AiCommitGemini",
   "description": "Commit with AI",
   "publisher": "binsarjr",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/binsarjr/aicommit-gemini-vscode"
